@@ -713,6 +713,7 @@ const App = () => {
     const [accessMode, setAccessMode]     = useState('loading'); // loading|onboarding|free|trial|expired|premium
     const [trialData, setTrialData]       = useState(null);      // {start, end, combinations}
     const [isPremium, setIsPremium]       = useState(false);
+    const [premiumSuccess, setPremiumSuccess] = useState(false);
 
     // ── onboarding
     const [onbStep, setOnbStep]           = useState(0);
@@ -788,6 +789,12 @@ const App = () => {
 
     // Sync volume
     useEffect(() => { PLAYER.setVolume(volume); }, [volume]);
+
+    // Check URL param
+    useEffect(() => {
+        const p = new URLSearchParams(window.location.search);
+        if (p.get('premium') === 'success') { setPremiumSuccess(true); window.history.replaceState({}, '', window.location.pathname); }
+    }, []);
 
     // Check Firebase premium
     useEffect(() => {
@@ -1070,6 +1077,7 @@ const App = () => {
         {accessMode === 'expired' && !showUpgradeModal && <ExpiredOverlay/>}
 
         <div className="app-container">
+{premiumSuccess && <div style={{background:'rgba(74,222,128,0.1)',border:'1px solid rgba(74,222,128,0.3)',borderRadius:'14px',padding:'12px 20px',marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:'12px'}}><span>🎉</span><span style={{flex:1,color:'rgba(255,255,255,.85)'}}>Benvenuto in <strong style={{color:'#4ade80'}}>Premium</strong>! Tutte le frequenze sono sbloccate.</span><span style={{cursor:'pointer',color:'rgba(255,255,255,.4)'}} onClick={()=>setPremiumSuccess(false)}>×</span></div>}}
             <div className="header">
                 <h1 className="logo">PUREFREQUENZE</h1>
                 <p className="tagline">Trasforma la tua energia con frequenze Solfeggio scientificamente calibrate</p>
