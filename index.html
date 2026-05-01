@@ -7,7 +7,7 @@
     ║                                                           ║
     ║  FREE permanente: 432 Hz × Deep Contemplation (7 combo) ║
     ║  TRIAL 7gg: 10-12 combinazioni personalizzate           ║
-    ║  PREMIUM: tutto. €5/mese, €42/anno       ║
+    ║  PREMIUM: tutto. €5/mese, €42/anno, €100 lifetime       ║
     ║                                                           ║
     ╚═══════════════════════════════════════════════════════════╝
 -->
@@ -274,7 +274,7 @@
         .upgrade-feature svg { width:24px; height:24px; stroke:#8b5cf6; fill:none; stroke-width:2; flex-shrink:0; margin-top:2px; }
         .upgrade-feature div h4 { font-size:1.1rem; margin-bottom:.4rem; color:#c084fc; font-weight:600; }
         .upgrade-feature div p { color:rgba(255,255,255,.65); font-size:.95rem; line-height:1.6; }
-        .upgrade-pricing { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin:2.5rem 0; }
+        .upgrade-pricing { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:2.5rem 0; }
         .pricing-option { background:rgba(139,92,246,.08); border:2px solid rgba(139,92,246,.25); border-radius:16px; padding:2rem 1.2rem; text-align:center; cursor:pointer; transition:all .3s; }
         .pricing-option:hover { border-color:rgba(139,92,246,.5); background:rgba(139,92,246,.12); transform:translateY(-3px); }
         .pricing-option h4 { font-size:1rem; color:#c084fc; margin:0 0 1rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
@@ -310,7 +310,7 @@
         .warning-icon { width:24px; height:24px; stroke:#eab308; fill:none; stroke-width:2; flex-shrink:0; }
         .warning-box p { color:#fef08a; font-size:.9rem; margin:0; }
         .timer-modal { background:linear-gradient(135deg,rgba(30,20,50,.95),rgba(20,15,35,.95)); border:1px solid rgba(139,92,246,.3); border-radius:24px; padding:2.5rem; min-width:350px; box-shadow:0 30px 80px rgba(0,0,0,.8); animation:slideUp .4s ease; position:relative; }
-        .timer-options { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin-top:1.5rem; }
+        .timer-options { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.5rem; }
         .timer-option { background:rgba(139,92,246,.1); border:1px solid rgba(139,92,246,.3); color:white; padding:1rem; border-radius:12px; cursor:pointer; transition:all .3s; font-family:inherit; font-weight:600; font-size:1rem; }
         .timer-option:hover { background:rgba(139,92,246,.2); transform:translateY(-2px); }
         .timer-option.active { background:rgba(139,92,246,.4); border-color:#8b5cf6; }
@@ -391,6 +391,7 @@ const WORKER_URL = 'https://purefrequenze-audio-worker.paradigmaolistico.workers
 const STRIPE_PRICES = {
     monthly:  'price_1SsnStQXuMdw5y4XQPIwxuuu',   // €5/mese
     annual:   'price_1SsnStQXuMdw5y4XQPIwxuuu',   // €42/anno  
+    lifetime: 'price_1SsnStQXuMdw5y4XQPIwxuuu'    // €100 lifetime
 };
 
 const LS_KEY = 'pf_v3';
@@ -687,7 +688,7 @@ const firebaseConfig = {
     projectId: "purefrequenze-35ff7",
     storageBucket: "purefrequenze-35ff7.firebasestorage.app",
     messagingSenderId: "895586868188",
-    appId: "1:895586688188:web:5929cb5b482ab3bc93cd19"
+    appId: "1:895586868188:web:5929cb5b482ab3bc93cd19"
 };
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -712,7 +713,6 @@ const App = () => {
     const [accessMode, setAccessMode]     = useState('loading'); // loading|onboarding|free|trial|expired|premium
     const [trialData, setTrialData]       = useState(null);      // {start, end, combinations}
     const [isPremium, setIsPremium]       = useState(false);
-    const [premiumSuccess, setPremiumSuccess] = useState(false);
 
     // ── onboarding
     const [onbStep, setOnbStep]           = useState(0);
@@ -788,12 +788,6 @@ const App = () => {
 
     // Sync volume
     useEffect(() => { PLAYER.setVolume(volume); }, [volume]);
-
-    // Check URL param
-    useEffect(() => {
-        const p = new URLSearchParams(window.location.search);
-        if (p.get("premium") === "success") { setPremiumSuccess(true); window.history.replaceState({}, "", window.location.pathname); }
-    }, []);
 
     // Check Firebase premium
     useEffect(() => {
@@ -1076,7 +1070,6 @@ const App = () => {
         {accessMode === 'expired' && !showUpgradeModal && <ExpiredOverlay/>}
 
         <div className="app-container">
-{premiumSuccess && <div style={{background:"rgba(74,222,128,0.1)",border:"1px solid rgba(74,222,128,0.3)",borderRadius:"14px",padding:"12px 20px",marginBottom:"1.5rem",display:"flex",alignItems:"center",gap:"12px"}}><span>🎉</span><span style={{flex:1,color:"rgba(255,255,255,.85)"}}>Benvenuto in <strong style={{color:"#4ade80"}}>Premium</strong>! Tutte le frequenze sono sbloccate.</span><span style={{cursor:"pointer",color:"rgba(255,255,255,.4)"}} onClick={()=>setPremiumSuccess(false)}>×</span></div>}
             <div className="header">
                 <h1 className="logo">PUREFREQUENZE</h1>
                 <p className="tagline">Trasforma la tua energia con frequenze Solfeggio scientificamente calibrate</p>
@@ -1313,7 +1306,8 @@ const App = () => {
                         <div className="pricing-option" onClick={()=>handleUpgrade('annual')}>
                             <h4>Annuale</h4><div className="price">€42<span>/anno</span></div><div className="savings">Risparmi 30%</div>
                         </div>
-                        <div className="savings">Per sempre</div>
+                        <div className="pricing-option" onClick={()=>handleUpgrade('lifetime')}>
+                            <h4>Lifetime</h4><div className="price">€100<span>una tantum</span></div><div className="savings">Per sempre</div>
                         </div>
                     </div>
                     <button className="upgrade-cta" onClick={()=>handleUpgrade('annual')}>Sblocca Tutto Ora</button>
@@ -1346,4 +1340,4 @@ const App = () => {
 ReactDOM.render(<App/>, document.getElementById('root'));
 </script>
 </body>
-</html>
+<!-- build:1777675117 --></html>
