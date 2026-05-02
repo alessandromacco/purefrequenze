@@ -871,7 +871,7 @@ const App = () => {
     // ──────────────────────────────────────
     return (
         <>
-        <audio ref={audioRef} preload="metadata"/>
+        <audio ref={audioRef} preload="auto"/>
 
         {accessMode === 'expired' && !showUpgradeModal && <ExpiredOverlay/>}
 
@@ -1144,5 +1144,5 @@ const App = () => {
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 </script>
-<!-- ts:1777745403239 --></body>
+<!-- ts:1777745403239 --><!-- ts:1777760217786 --></body>
 </html>
