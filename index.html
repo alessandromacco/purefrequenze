@@ -7,14 +7,14 @@
     ║                                                           ║
     ║  FREE permanente: 432 Hz × Deep Contemplation (7 combo) ║
     ║  TRIAL 7gg: 10-12 combinazioni personalizzate           ║
-    ║  PREMIUM: tutto. €5/mese, €42/anno, €100 lifetime       ║
+    ║  PREMIUM: tutto. €5/mese, €42/anno       ║
     ║                                                           ║
     ╚═══════════════════════════════════════════════════════════╝
 -->
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PureFrequenze - Frequenze Solfeggio & Battimenti Binaurali</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -215,8 +215,8 @@
         .track-subtitle { color:rgba(255,255,255,.65); font-size:1.15rem; }
         .mode-badge { display:inline-block; padding:.5rem 1.5rem; background:rgba(139,92,246,.2); border:1px solid rgba(139,92,246,.4); border-radius:20px; font-size:.9rem; margin-top:1rem; color:#c084fc; }
         .progress-container { margin:2.5rem 0; }
-        .progress-bar { width:100%; height:12px; background:rgba(255,255,255,.08); border-radius:10px; cursor:pointer; position:relative; box-shadow:inset 0 2px 8px rgba(0,0,0,.3); }
-        .progress-fill { height:100%; background:linear-gradient(90deg,var(--freq-528),#8b5cf6); border-radius:10px; transition:width .1s ease; box-shadow:0 0 20px rgba(0,206,209,.6); position:relative; }
+        .progress-bar { width:100%; height:12px; background:rgba(255,255,255,.08); border-radius:10px; cursor:pointer; position:relative; overflow:hidden; box-shadow:inset 0 2px 8px rgba(0,0,0,.3); }
+        .progress-fill { height:100%; background:linear-gradient(90deg,var(--freq-528),#8b5cf6); border-radius:10px; transition:width .1s ease; box-shadow:0 0 20px rgba(0,206,209,.6); }
         .progress-fill::after { content:''; position:absolute; right:0; top:50%; transform:translateY(-50%); width:20px; height:20px; background:white; border-radius:50%; box-shadow:0 2px 10px rgba(0,0,0,.4),0 0 15px rgba(255,255,255,.5); }
         .time-info { display:flex; justify-content:space-between; margin-top:1.2rem; color:rgba(255,255,255,.5); font-size:1rem; font-weight:500; }
         .player-controls { display:flex; justify-content:center; align-items:center; gap:2.5rem; margin:2.5rem 0; }
@@ -274,7 +274,7 @@
         .upgrade-feature svg { width:24px; height:24px; stroke:#8b5cf6; fill:none; stroke-width:2; flex-shrink:0; margin-top:2px; }
         .upgrade-feature div h4 { font-size:1.1rem; margin-bottom:.4rem; color:#c084fc; font-weight:600; }
         .upgrade-feature div p { color:rgba(255,255,255,.65); font-size:.95rem; line-height:1.6; }
-        .upgrade-pricing { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:2.5rem 0; }
+        .upgrade-pricing { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin:2.5rem 0; }
         .pricing-option { background:rgba(139,92,246,.08); border:2px solid rgba(139,92,246,.25); border-radius:16px; padding:2rem 1.2rem; text-align:center; cursor:pointer; transition:all .3s; }
         .pricing-option:hover { border-color:rgba(139,92,246,.5); background:rgba(139,92,246,.12); transform:translateY(-3px); }
         .pricing-option h4 { font-size:1rem; color:#c084fc; margin:0 0 1rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
@@ -310,68 +310,14 @@
         .warning-icon { width:24px; height:24px; stroke:#eab308; fill:none; stroke-width:2; flex-shrink:0; }
         .warning-box p { color:#fef08a; font-size:.9rem; margin:0; }
         .timer-modal { background:linear-gradient(135deg,rgba(30,20,50,.95),rgba(20,15,35,.95)); border:1px solid rgba(139,92,246,.3); border-radius:24px; padding:2.5rem; min-width:350px; box-shadow:0 30px 80px rgba(0,0,0,.8); animation:slideUp .4s ease; position:relative; }
-        .timer-options { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.5rem; }
+        .timer-options { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin-top:1.5rem; }
         .timer-option { background:rgba(139,92,246,.1); border:1px solid rgba(139,92,246,.3); color:white; padding:1rem; border-radius:12px; cursor:pointer; transition:all .3s; font-family:inherit; font-weight:600; font-size:1rem; }
         .timer-option:hover { background:rgba(139,92,246,.2); transform:translateY(-2px); }
         .timer-option.active { background:rgba(139,92,246,.4); border-color:#8b5cf6; }
         body.modal-open { overflow:hidden; position:fixed; width:100%; }
         @media(max-width:1400px){.main-layout{grid-template-columns:450px 1fr;gap:2rem}}
         @media(max-width:1200px){.main-layout{grid-template-columns:1fr}.binaural-modes{grid-template-columns:1fr}}
-        @media(max-width:768px){
-            .app-container{padding:1rem}
-            .logo{font-size:48px;letter-spacing:8px;margin-bottom:1.5rem}
-            .main-layout{gap:1.5rem}
-            .player-card{padding:1.5rem}
-            .cover-art{margin-bottom:1.5rem}
-            .freq-badge{padding:.5rem 1.5rem;font-size:0.95rem;margin-bottom:0.8rem}
-            .track-name{font-size:1.6rem;margin-bottom:.4rem}
-            .track-subtitle{font-size:0.95rem}
-            .progress-container{margin:1.5rem 0}
-            .progress-bar{height:8px}
-            .time-info{font-size:0.85rem;margin-top:0.8rem}
-            .player-controls{gap:1.5rem;margin:1.5rem 0}
-            .control-btn svg{width:24px;height:24px}
-            .control-btn.play{width:70px;height:70px}
-            .control-btn.play svg{width:32px;height:32px}
-            .secondary-controls{gap:1.5rem;margin-top:1.5rem}
-            .secondary-controls .control-btn svg{width:20px;height:20px}
-            .volume-slider{width:80px}
-            .tabs-column{min-height:auto}
-            .tabs-header{gap:0.5rem;margin-bottom:1.5rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
-            .tab-button{padding:1rem 1.5rem;font-size:0.9rem;white-space:nowrap}
-            .tab-content{padding:1.5rem}
-            .freq-grid{grid-template-columns:1fr;gap:1rem}
-            .freq-item{padding:1.5rem}
-            .freq-item h3{font-size:1.8rem}
-            .freq-item .description{font-size:0.85rem}
-            .track-groups{gap:1.5rem;margin-top:1.5rem}
-            .track-group{padding:1.5rem}
-            .track-group-header{gap:1rem;margin-bottom:1rem;padding-bottom:1rem}
-            .track-group-icon{width:36px;height:36px}
-            .track-group-header h3{font-size:1.3rem}
-            .track-list{gap:0.8rem}
-            .track-item{padding:1rem}
-            .track-item h4{font-size:0.95rem}
-            .track-item p{font-size:0.8rem}
-            .upgrade-pricing{grid-template-columns:1fr}
-            .upgrade-modal{padding:1.5rem;max-width:100%}
-            .upgrade-header h2{font-size:1.6rem}
-            .pricing-option{padding:1.5rem}
-            .pricing-option .price{font-size:1.8rem}
-            .application-card{padding:1.5rem}
-            .app-header{gap:1rem;margin-bottom:1rem;padding-bottom:1rem}
-            .app-icon{width:36px;height:36px}
-            .app-header h3{font-size:1.3rem}
-            .objectives-list{gap:0.8rem}
-            .objective-item{padding:1rem;flex-direction:column;align-items:flex-start}
-            .binaural-card{padding:1.8rem}
-            .binaural-card h3{font-size:1.5rem}
-            .onboarding-box{padding:1.5rem 1.2rem}
-            .onb-logo{font-size:1.5rem}
-            .onb-question{font-size:1.2rem;margin-bottom:1.3rem}
-            .trial-banner{padding:10px 14px;font-size:0.8rem;gap:12px}
-            .trial-bar-wrap{width:60px}
-        }
+        @media(max-width:768px){.logo{font-size:60px;letter-spacing:10px}.freq-grid{grid-template-columns:1fr}.upgrade-pricing{grid-template-columns:1fr}.onboarding-box{padding:2rem}}
     </style>
 </head>
 <body>
@@ -389,9 +335,8 @@ const { useState, useEffect, useRef } = React;
 const WORKER_URL = 'https://purefrequenze-audio-worker.paradigmaolistico.workers.dev';
 
 const STRIPE_PRICES = {
-    monthly:  'price_1SsnStQXuMdw5y4XQPIwxuuu',   // €5/mese
-    annual:   'price_1SsnStQXuMdw5y4XQPIwxuuu',   // €42/anno  
-    lifetime: 'price_1SsnStQXuMdw5y4XQPIwxuuu'    // €100 lifetime
+    monthly:  'price_1SudFEHbuezRUYTXf62voXdo',
+    annual:   'price_1TQFuNHbuezRUYTX2cBvjPx2',
 };
 
 const LS_KEY = 'pf_v3';
@@ -569,117 +514,6 @@ const CheckIcon  = ()=><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12
 const WarningIcon= ()=><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>;
 
 // ═══════════════════════════════════════════
-// PLAYER IMPERATIVO — bypassa React cycles
-// iOS richiede play() sincrono nell'event handler
-// ═══════════════════════════════════════════
-const PLAYER = {
-    audio: null,
-    audioCtx: null,
-    oscL: null, oscR: null, gain: null,
-    _playing: false,
-    _currentTime: 0,
-    _duration: 0,
-    onStateChange: null, // callback → React
-
-    init(audioEl) {
-        this.audio = audioEl;
-        this.audio.preload = 'metadata';
-        this.audio.addEventListener('timeupdate', () => {
-            this._currentTime = this.audio.currentTime;
-            this.onStateChange?.();
-        });
-        ['loadedmetadata','durationchange','canplay'].forEach(ev => {
-            this.audio.addEventListener(ev, () => {
-                if (this.audio.duration && isFinite(this.audio.duration)) {
-                    this._duration = this.audio.duration;
-                    this.onStateChange?.();
-                }
-            });
-        });
-        this.audio.addEventListener('ended', () => {
-            this._playing = false;
-            this.onStateChange?.();
-        });
-    },
-
-    _ensureCtx() {
-        if (!this.audioCtx) {
-            this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (this.audioCtx.state === 'suspended') {
-            this.audioCtx.resume();
-        }
-    },
-
-    loadUrl(url) {
-        if (!this.audio) return;
-        this.audio.pause();
-        this.audio.src = url;
-        this.audio.load();
-        this._currentTime = 0;
-        this._duration = 0;
-        this.onStateChange?.();
-    },
-
-    // Chiamato SINCRONO nell'event handler utente
-    play(url) {
-        if (!this.audio) return;
-        this._ensureCtx();
-        if (url && this.audio.src !== url) {
-            this.audio.src = url;
-            this.audio.load();
-            this._currentTime = 0;
-            this._duration = 0;
-        }
-        const p = this.audio.play();
-        if (p && p.catch) p.catch(e => console.warn('play():', e.name));
-        this._playing = true;
-        this.onStateChange?.();
-    },
-
-    pause() {
-        this.audio?.pause();
-        this._playing = false;
-        this.onStateChange?.();
-    },
-
-    seek(frac) {
-        if (!this.audio || !this._duration) return;
-        this.audio.currentTime = frac * this._duration;
-    },
-
-    setVolume(v) {
-        if (this.audio) this.audio.volume = v;
-        if (this.gain) this.gain.gain.value = v * 0.3;
-    },
-
-    startBinaural(range, volume) {
-        this._ensureCtx();
-        this.stopBinaural();
-        const ctx = this.audioCtx;
-        const r = BINAURAL_RANGES[range];
-        this.oscL = ctx.createOscillator();
-        this.oscR = ctx.createOscillator();
-        this.gain = ctx.createGain();
-        this.gain.gain.value = volume * 0.3;
-        const pL = ctx.createStereoPanner(); pL.pan.value = -1;
-        const pR = ctx.createStereoPanner(); pR.pan.value =  1;
-        this.oscL.frequency.value = r.carrier;
-        this.oscR.frequency.value = r.carrier + r.freq;
-        this.oscL.type = this.oscR.type = 'sine';
-        this.oscL.connect(pL).connect(this.gain).connect(ctx.destination);
-        this.oscR.connect(pR).connect(this.gain).connect(ctx.destination);
-        this.oscL.start(); this.oscR.start();
-    },
-
-    stopBinaural() {
-        [this.oscL, this.oscR].forEach(o => { try { o?.stop(); o?.disconnect(); } catch(e){} });
-        try { this.gain?.disconnect(); } catch(e){}
-        this.oscL = this.oscR = this.gain = null;
-    }
-};
-
-// ═══════════════════════════════════════════
 // FIREBASE
 // ═══════════════════════════════════════════
 const firebaseConfig = {
@@ -713,6 +547,7 @@ const App = () => {
     const [accessMode, setAccessMode]     = useState('loading'); // loading|onboarding|free|trial|expired|premium
     const [trialData, setTrialData]       = useState(null);      // {start, end, combinations}
     const [isPremium, setIsPremium]       = useState(false);
+    const [premiumSuccess, setPremiumSuccess] = useState(false);
 
     // ── onboarding
     const [onbStep, setOnbStep]           = useState(0);
@@ -722,6 +557,9 @@ const App = () => {
     const [selectedFreq, setSelectedFreq] = useState(432);
     const [selectedGroup, setSelectedGroup]= useState('deep_contemplation');
     const [selectedTrack, setSelectedTrack]= useState(0);
+    const [isPlaying, setIsPlaying]       = useState(false);
+    const [currentTime, setCurrentTime]   = useState(0);
+    const [duration, setDuration]         = useState(300);
     const [volume, setVolume]             = useState(0.7);
     const [activeTab, setActiveTab]       = useState('tracks');
     const [binauralMode, setBinauralMode] = useState(null);
@@ -733,61 +571,40 @@ const App = () => {
     const [sleepTimer, setSleepTimer]     = useState(null);
 
     const audioRef    = useRef(null);
-    const audioCtxRef = useRef(null); // mantenuto per compatibilità binaural
+    const audioCtxRef = useRef(null);
     const oscLRef     = useRef(null);
     const oscRRef     = useRef(null);
     const gainRef     = useRef(null);
     const timerRef    = useRef(null);
-    const [tick, setTick] = useState(0); // forzare re-render da PLAYER
-
-    // Refs sempre aggiornati — usati negli handler per evitare stale closures
-    const groupRef  = useRef('deep_contemplation');
-    const trackRef  = useRef(0);
-    const freqRef   = useRef(432);
-    const shuffleRef= useRef(false);
-    const repeatRef = useRef(false);
-    const modeRef   = useRef(null);
-    const rangeRef  = useRef('theta');
-
-    // Aggiorna refs quando cambiano gli state
-    useEffect(() => { groupRef.current  = selectedGroup;  }, [selectedGroup]);
-    useEffect(() => { trackRef.current  = selectedTrack;  }, [selectedTrack]);
-    useEffect(() => { freqRef.current   = selectedFreq;   }, [selectedFreq]);
-    useEffect(() => { shuffleRef.current= isShuffle;      }, [isShuffle]);
-    useEffect(() => { repeatRef.current = isRepeat;       }, [isRepeat]);
-    useEffect(() => { modeRef.current   = binauralMode;   }, [binauralMode]);
-    useEffect(() => { rangeRef.current  = binauralRange;  }, [binauralRange]);
 
     // ──────────────────────────────────────
-    // INIT PLAYER
+    // INIT: carica stato salvato
     // ──────────────────────────────────────
     useEffect(() => {
-        if (!audioRef.current) return;
-        PLAYER.init(audioRef.current);
-        PLAYER.onStateChange = () => setTick(t => t + 1);
-        // Carica URL iniziale
-        PLAYER.loadUrl(`${WORKER_URL}/${FREE_GROUP}/${TRACK_GROUPS[FREE_GROUP].tracks[0].id}_${FREE_FREQ}Hz.mp3`);
-
         const saved = loadLocal();
         if (!saved) { setAccessMode('onboarding'); return; }
+
         if (saved.isPremium) { setAccessMode('premium'); setIsPremium(true); return; }
+
         if (saved.trial) {
             const now = Date.now();
             if (now < saved.trial.end) {
                 setTrialData(saved.trial);
                 setAccessMode('trial');
+                // default su prima combo
                 if (saved.trial.combinations?.length) {
-                    const c = saved.trial.combinations[0];
-                    setSelectedFreq(c.freq);
-                    setSelectedGroup(c.group);
-                    PLAYER.loadUrl(`${WORKER_URL}/${c.group}/${TRACK_GROUPS[c.group].tracks[0].id}_${c.freq}Hz.mp3`);
+                    setSelectedFreq(saved.trial.combinations[0].freq);
+                    setSelectedGroup(saved.trial.combinations[0].group);
                 }
-            } else { setAccessMode('expired'); }
-        } else { setAccessMode('free'); }
+            } else {
+                setAccessMode('expired');
+            }
+        } else {
+            setAccessMode('free');
+        }
     }, []);
 
-    // Sync volume
-    useEffect(() => { PLAYER.setVolume(volume); }, [volume]);
+    useEffect(() => { const p = new URLSearchParams(window.location.search); if (p.get("premium") === "success") { setPremiumSuccess(true); window.history.replaceState({}, "", window.location.pathname); } }, []);
 
     // Check Firebase premium
     useEffect(() => {
@@ -796,7 +613,8 @@ const App = () => {
                 try {
                     const doc = await db.collection('users').doc(user.uid).get();
                     if (doc.exists && doc.data().isPremium) {
-                        setIsPremium(true); setAccessMode('premium');
+                        setIsPremium(true);
+                        setAccessMode('premium');
                         saveLocal({ isPremium: true });
                     }
                 } catch(e){}
@@ -805,15 +623,26 @@ const App = () => {
         return ()=>unsub();
     }, []);
 
+    // Check scadenza trial ogni minuto
+    useEffect(() => {
+        if (accessMode !== 'trial') return;
+        const check = () => {
+            if (trialData && Date.now() >= trialData.end) {
+                setAccessMode('expired');
+                saveLocal({ trial: trialData, expired: true });
+            }
+        };
+        const id = setInterval(check, 60000);
+        return ()=>clearInterval(id);
+    }, [accessMode, trialData]);
+
     // ──────────────────────────────────────
     // LOGICA ACCESSO
     // ──────────────────────────────────────
-    const canAccess = (group, freq, trackId) => {
+    const canAccess = (group, freq) => {
         if (isPremium || accessMode === 'premium') return true;
         if (group === FREE_GROUP && freq === FREE_FREQ) return true;
         if (accessMode === 'trial' && trialData) {
-            // Se trackId passato, controlla combo esatta; altrimenti controlla group+freq
-            if (trackId) return trialData.combinations.some(c => c.group === group && c.freq === freq && c.trackId === trackId);
             return trialData.combinations.some(c => c.group === group && c.freq === freq);
         }
         return false;
@@ -870,124 +699,101 @@ const App = () => {
     };
 
     // ──────────────────────────────────────
-    // AUDIO — tutto imperativo via PLAYER
+    // AUDIO
     // ──────────────────────────────────────
-    const getAudioUrl = (grp, idx, frq) =>
-        `${WORKER_URL}/${grp}/${TRACK_GROUPS[grp].tracks[idx].id}_${frq}Hz.mp3`;
+    const getAudioUrl = () =>
+        `${WORKER_URL}/${selectedGroup}/${TRACK_GROUPS[selectedGroup].tracks[selectedTrack].id}_${selectedFreq}Hz.mp3`;
 
-    const startBinaural = () => PLAYER.startBinaural(binauralRange, volume);
-    const stopBinaural  = () => PLAYER.stopBinaural();
-
-    // Leggi currentTime/duration/isPlaying direttamente da PLAYER (aggiornati da tick)
-    const currentTime = PLAYER._currentTime;
-    const duration    = PLAYER._duration;
-    const isPlaying   = PLAYER._playing;
-
-    // Gestione ended con isRepeat
     useEffect(() => {
-        const a = audioRef.current; if (!a) return;
-        const onEnded = () => {
-            if (isRepeat) { a.currentTime = 0; a.play(); }
-            else handleNext();
-        };
-        a.addEventListener('ended', onEnded);
-        return () => a.removeEventListener('ended', onEnded);
-    }, [isRepeat, selectedGroup, selectedTrack, isShuffle]);
+        if (audioRef.current && binauralMode !== 'pure') {
+            audioRef.current.src = getAudioUrl();
+            audioRef.current.load();
+        }
+    }, [selectedFreq, selectedGroup, selectedTrack]);
 
-    useEffect(()=>{ if(sleepTimer){ timerRef.current=setTimeout(()=>{ PLAYER.pause(); setSleepTimer(null); },sleepTimer*60000); } return()=>{ if(timerRef.current) clearTimeout(timerRef.current); }; },[sleepTimer]);
+    const startBinaural = () => {
+        if (!audioCtxRef.current) audioCtxRef.current = new (window.AudioContext||window.webkitAudioContext)();
+        stopBinaural();
+        const ctx = audioCtxRef.current;
+        if (ctx.state==='suspended') ctx.resume();
+        const r = BINAURAL_RANGES[binauralRange];
+        oscLRef.current = ctx.createOscillator();
+        oscRRef.current = ctx.createOscillator();
+        gainRef.current = ctx.createGain();
+        gainRef.current.gain.value = volume * 0.3;
+        const pL = ctx.createStereoPanner(); pL.pan.value = -1;
+        const pR = ctx.createStereoPanner(); pR.pan.value = 1;
+        oscLRef.current.frequency.value = r.carrier;
+        oscRRef.current.frequency.value = r.carrier + r.freq;
+        oscLRef.current.type = oscRRef.current.type = 'sine';
+        oscLRef.current.connect(pL).connect(gainRef.current).connect(ctx.destination);
+        oscRRef.current.connect(pR).connect(gainRef.current).connect(ctx.destination);
+        oscLRef.current.start(); oscRRef.current.start();
+    };
+    const stopBinaural = () => {
+        [oscLRef, oscRRef].forEach(r=>{ try{ r.current?.stop(); r.current?.disconnect(); r.current=null; }catch(e){ r.current=null; } });
+        try{ gainRef.current?.disconnect(); gainRef.current=null; }catch(e){}
+    };
+
+    useEffect(()=>{
+        if (isPlaying) {
+            if (binauralMode) startBinaural();
+            if (binauralMode !== 'pure' && audioRef.current) audioRef.current.play().catch(()=>setIsPlaying(false));
+        } else {
+            stopBinaural();
+            audioRef.current?.pause();
+        }
+    },[isPlaying, binauralMode, binauralRange]);
+
+    useEffect(()=>{ if(audioRef.current) audioRef.current.volume=volume; if(gainRef.current) gainRef.current.gain.value=volume*.3; },[volume]);
+
+    useEffect(()=>{
+        const a=audioRef.current; if(!a) return;
+        const t=()=>setCurrentTime(a.currentTime);
+        const d=()=>setDuration(a.duration||300);
+        const e=()=>{ if(isRepeat){a.currentTime=0;a.play();}else handleNext(); };
+        a.addEventListener('timeupdate',t); a.addEventListener('loadedmetadata',d); a.addEventListener('ended',e);
+        return()=>{ a.removeEventListener('timeupdate',t); a.removeEventListener('loadedmetadata',d); a.removeEventListener('ended',e); };
+    },[isRepeat]);
+
+    useEffect(()=>{ if(sleepTimer){ timerRef.current=setTimeout(()=>{setIsPlaying(false);setSleepTimer(null);},sleepTimer*60000); } return()=>{ if(timerRef.current) clearTimeout(timerRef.current); }; },[sleepTimer]);
     useEffect(()=>{ if(showUpgradeModal||showTimerModal) document.body.classList.add('modal-open'); else document.body.classList.remove('modal-open'); return()=>document.body.classList.remove('modal-open'); },[showUpgradeModal,showTimerModal]);
 
-    const formatTime = s => (!s||isNaN(s)||!isFinite(s)) ? '0:00' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
-    const handleProgressClick = e=>{ const r=e.currentTarget.getBoundingClientRect(); PLAYER.seek((e.clientX-r.left)/r.width); };
-    const handleProgressTouch = e=>{ const t=e.touches[0]||e.changedTouches[0]; const r=e.currentTarget.getBoundingClientRect(); PLAYER.seek(Math.max(0,Math.min(1,(t.clientX-r.left)/r.width))); };
-
-    // PLAY/PAUSE — sincrono nell'event handler, nessun ciclo React
-    const handlePlayPause = () => {
-        if (PLAYER._playing) {
-            stopBinaural();
-            PLAYER.pause();
-        } else {
-            if (binauralMode) startBinaural();
-            if (binauralMode !== 'pure') PLAYER.play();
-            else { PLAYER._playing = true; setTick(t=>t+1); }
-        }
-    };
+    const formatTime = s => isNaN(s)?'0:00':`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+    const handleProgressClick = e=>{ const r=e.currentTarget.getBoundingClientRect(); const p=(e.clientX-r.left)/r.width; if(audioRef.current&&binauralMode!=='pure') audioRef.current.currentTime=p*duration; };
+    const handleProgressTouch = e=>{ const t=e.touches[0]||e.changedTouches[0]; const r=e.currentTarget.getBoundingClientRect(); const p=Math.max(0,Math.min(1,(t.clientX-r.left)/r.width)); if(audioRef.current&&binauralMode!=='pure') audioRef.current.currentTime=p*duration; };
 
     const handleNext = () => {
-        const grp = groupRef.current;
-        const trk = trackRef.current;
-        const frq = freqRef.current;
-        const tracks = TRACK_GROUPS[grp].tracks;
-        let newGroup = grp, newIdx;
-        if (shuffleRef.current) {
-            const g = Object.keys(TRACK_GROUPS);
-            newGroup = g[Math.floor(Math.random()*g.length)];
-            newIdx = Math.floor(Math.random()*TRACK_GROUPS[newGroup].tracks.length);
+        const tracks = TRACK_GROUPS[selectedGroup].tracks;
+        if (isShuffle) {
+            const g = Object.keys(TRACK_GROUPS); const rg = g[Math.floor(Math.random()*g.length)];
+            setSelectedGroup(rg); setSelectedTrack(Math.floor(Math.random()*TRACK_GROUPS[rg].tracks.length));
         } else {
-            newIdx = (trk+1) % tracks.length;
-            if (newIdx === 0) {
-                const gs = Object.keys(TRACK_GROUPS);
-                newGroup = gs[(gs.indexOf(grp)+1) % gs.length];
-            }
+            let next = (selectedTrack+1)%tracks.length;
+            if (next===0) { const gs=Object.keys(TRACK_GROUPS); setSelectedGroup(gs[(gs.indexOf(selectedGroup)+1)%gs.length]); }
+            setSelectedTrack(next);
         }
-        groupRef.current = newGroup;
-        trackRef.current = newIdx;
-        setSelectedGroup(newGroup);
-        setSelectedTrack(newIdx);
-        const url = getAudioUrl(newGroup, newIdx, frq);
-        if (PLAYER._playing) PLAYER.play(url); else PLAYER.loadUrl(url);
     };
-
     const handlePrev = () => {
-        const grp = groupRef.current;
-        const trk = trackRef.current;
-        const frq = freqRef.current;
-        let newGroup = grp, newIdx;
-        if (trk > 0) { newIdx = trk - 1; }
-        else {
-            const gs = Object.keys(TRACK_GROUPS);
-            newGroup = gs[(gs.indexOf(grp)-1+gs.length) % gs.length];
-            newIdx = TRACK_GROUPS[newGroup].tracks.length - 1;
-        }
-        groupRef.current = newGroup;
-        trackRef.current = newIdx;
-        setSelectedGroup(newGroup);
-        setSelectedTrack(newIdx);
-        const url = getAudioUrl(newGroup, newIdx, frq);
-        if (PLAYER._playing) PLAYER.play(url); else PLAYER.loadUrl(url);
+        if (selectedTrack>0) { setSelectedTrack(s=>s-1); }
+        else { const gs=Object.keys(TRACK_GROUPS); const prev=gs[(gs.indexOf(selectedGroup)-1+gs.length)%gs.length]; setSelectedGroup(prev); setSelectedTrack(TRACK_GROUPS[prev].tracks.length-1); }
     };
 
     const handleFreqSelect = freq => {
         if (!canAccessFreq(freq)) { setShowUpgradeModal(true); return; }
-        freqRef.current = freq;
-        setSelectedFreq(freq); setBinauralMode(null);
-        const url = getAudioUrl(groupRef.current, trackRef.current, freq);
-        if (PLAYER._playing) PLAYER.play(url); else PLAYER.loadUrl(url);
+        setSelectedFreq(freq); setBinauralMode(null); setIsPlaying(false); setTimeout(()=>setIsPlaying(true),100);
     };
-
     const handleTrackSelect = (group, idx) => {
         const track = TRACK_GROUPS[group].tracks[idx];
-        if (!canAccess(group, freqRef.current, track.id)) { setShowUpgradeModal(true); return; }
-        groupRef.current = group;
-        trackRef.current = idx;
-        setSelectedGroup(group); setSelectedTrack(idx); setBinauralMode(null);
-        const url = getAudioUrl(group, idx, freqRef.current);
-        if (PLAYER._playing) PLAYER.play(url); else PLAYER.loadUrl(url);
+        if (!canAccess(group, selectedFreq)) { setShowUpgradeModal(true); return; }
+        setSelectedGroup(group); setSelectedTrack(idx); setBinauralMode(null); setIsPlaying(false); setTimeout(()=>setIsPlaying(true),100);
     };
-
-    const handleBinauralSelect = mode => {
-        stopBinaural(); PLAYER.pause(); setBinauralMode(mode);
-        setTimeout(() => {
-            if (mode) startBinaural();
-            if (mode !== 'pure') PLAYER.play();
-            else { PLAYER._playing = true; setTick(t=>t+1); }
-        }, 150);
-    };
+    const handleBinauralSelect = mode => { setIsPlaying(false); stopBinaural(); audioRef.current?.pause(); setBinauralMode(mode); setTimeout(()=>setIsPlaying(true),150); };
 
     const handleUpgrade = async (plan) => {
         try {
             if (!auth.currentUser) await auth.signInAnonymously();
-            const fn = functions.httpsCallable('createCheckout');
+            const fn = firebase.app().functions('us-central1').httpsCallable('createCheckoutSession');
             const res = await fn({ plan });
             if (res.data?.url) window.location.href = res.data.url;
         } catch(e){ console.error(e); alert('Errore checkout: '+e.message); }
@@ -1065,11 +871,12 @@ const App = () => {
     // ──────────────────────────────────────
     return (
         <>
-        <audio ref={audioRef} preload="auto"/>
+        <audio ref={audioRef} preload="metadata"/>
 
         {accessMode === 'expired' && !showUpgradeModal && <ExpiredOverlay/>}
 
         <div className="app-container">
+{premiumSuccess && <div style={{background:"rgba(74,222,128,0.1)",border:"1px solid rgba(74,222,128,0.3)",borderRadius:"14px",padding:"12px 20px",marginBottom:"1.5rem",display:"flex",alignItems:"center",gap:"12px"}}><span>🎉</span><span style={{flex:1,color:"rgba(255,255,255,.85)"}}>Benvenuto in <strong style={{color:"#4ade80"}}>Premium</strong>! Tutte le frequenze sono sbloccate.</span><span style={{cursor:"pointer",color:"rgba(255,255,255,.4)"}} onClick={()=>setPremiumSuccess(false)}>×</span></div>}
             <div className="header">
                 <h1 className="logo">PUREFREQUENZE</h1>
                 <p className="tagline">Trasforma la tua energia con frequenze Solfeggio scientificamente calibrate</p>
@@ -1120,7 +927,7 @@ const App = () => {
                         </div>
                         <div className="player-controls">
                             <button className="control-btn" onClick={handlePrev}><SkipBIcon/></button>
-                            <button className="control-btn play" onClick={handlePlayPause}>{isPlaying?<PauseIcon/>:<PlayIcon/>}</button>
+                            <button className="control-btn play" onClick={()=>setIsPlaying(!isPlaying)}>{isPlaying?<PauseIcon/>:<PlayIcon/>}</button>
                             <button className="control-btn" onClick={handleNext}><SkipFIcon/></button>
                         </div>
                         <div className="secondary-controls">
@@ -1174,11 +981,11 @@ const App = () => {
                                             </div>
                                             <div className="track-list">
                                                 {group.tracks.map((track,idx)=>{
-                                                    const acc = canAccess(groupId, selectedFreq, track.id);
+                                                    const acc = canAccess(groupId, selectedFreq);
                                                     // badge
                                                     let badge = null;
                                                     if (groupId===FREE_GROUP && selectedFreq===FREE_FREQ) badge=<span className="access-badge badge-free">FREE</span>;
-                                                    else if (acc && (accessMode==='trial')) badge=<span className="access-badge badge-trial">TRIAL</span>;
+                                                    else if (acc && accessMode==='trial') badge=<span className="access-badge badge-trial">TRIAL</span>;
                                                     else if (!acc) badge=<span className="access-badge badge-lock">🔒 PREMIUM</span>;
                                                     return (
                                                         <div key={track.id} className={`track-item ${selectedGroup===groupId&&selectedTrack===idx&&!binauralMode?'active':''} ${!acc?'locked-item':''}`}
@@ -1284,7 +1091,7 @@ const App = () => {
                     <button className="modal-close" onClick={()=>setShowUpgradeModal(false)}>×</button>
                     <div className="upgrade-header">
                         <div style={{fontSize:'.85rem',textTransform:'uppercase',letterSpacing:'2px',color:'#8b5cf6',fontWeight:600,marginBottom:'1rem'}}>PureFrequenze Premium</div>
-                        <h2>Sblocca il Tuo Potenziale</h2>
+                        <h2>Accesso Completo</h2>
                         <p>Accedi all'intera libreria di 43 tracce × 10 frequenze</p>
                     </div>
                     <div className="upgrade-features">
@@ -1306,11 +1113,9 @@ const App = () => {
                         <div className="pricing-option" onClick={()=>handleUpgrade('annual')}>
                             <h4>Annuale</h4><div className="price">€42<span>/anno</span></div><div className="savings">Risparmi 30%</div>
                         </div>
-                        <div className="pricing-option" onClick={()=>handleUpgrade('lifetime')}>
-                            <h4>Lifetime</h4><div className="price">€100<span>una tantum</span></div><div className="savings">Per sempre</div>
-                        </div>
+
                     </div>
-                    <button className="upgrade-cta" onClick={()=>handleUpgrade('annual')}>Sblocca Tutto Ora</button>
+                    <button className="upgrade-cta" onClick={()=>handleUpgrade('annual')}>Attiva Premium</button>
                     <p style={{textAlign:'center',marginTop:'1.5rem',color:'rgba(255,255,255,.5)',fontSize:'.85rem'}}>Pagamento sicuro via Stripe · Cancella quando vuoi · Garanzia 30 giorni</p>
                 </div>
             </div>
@@ -1339,5 +1144,5 @@ const App = () => {
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 </script>
-</body>
-<!-- build:1777675117 --></html>
+<!-- ts:1777745403239 --></body>
+</html>
