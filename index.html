@@ -750,10 +750,17 @@ const App = () => {
     useEffect(()=>{
         const a=audioRef.current; if(!a) return;
         const t=()=>setCurrentTime(a.currentTime);
-        const d=()=>{ if(a.duration&&isFinite(a.duration)&&a.duration>1) setDuration(a.duration); };
+        const d=()=>{ if(a.duration&&isFinite(a.duration)&&a.duration>60) setDuration(a.duration); };
+        // Polling per MP3 VBR - rilegge la durata ogni secondo finché non è > 60s
+        const pollDuration = setInterval(()=>{
+            if(audioRef.current&&audioRef.current.duration&&isFinite(audioRef.current.duration)&&audioRef.current.duration>60){
+                setDuration(audioRef.current.duration);
+                clearInterval(pollDuration);
+            }
+        }, 1000);
         const e=()=>{ if(isRepeat){a.currentTime=0;a.play();}else handleNext(); };
         a.addEventListener('timeupdate',t); a.addEventListener('loadedmetadata',d); a.addEventListener('durationchange',d); a.addEventListener('ended',e);
-        return()=>{ a.removeEventListener('timeupdate',t); a.removeEventListener('loadedmetadata',d); a.removeEventListener('durationchange',d); a.removeEventListener('ended',e); };
+        return()=>{ a.removeEventListener('timeupdate',t); a.removeEventListener('loadedmetadata',d); a.removeEventListener('durationchange',d); a.removeEventListener('ended',e); clearInterval(pollDuration); };
     },[isRepeat]);
 
     useEffect(()=>{ if(sleepTimer){ timerRef.current=setTimeout(()=>{setIsPlaying(false);setSleepTimer(null);},sleepTimer*60000); } return()=>{ if(timerRef.current) clearTimeout(timerRef.current); }; },[sleepTimer]);
@@ -1144,5 +1151,5 @@ const App = () => {
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 </script>
-<!-- old:1777745403239 --><!-- old:1777760217786 --><!-- ts:1777760965540 --></body>
+<!-- prev:1777745403239 --><!-- prev:1777760217786 --><!-- ts:1777760965540 --><!-- ts:1777799748855 --></body>
 </html>
