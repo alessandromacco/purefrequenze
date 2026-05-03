@@ -750,19 +750,36 @@ const App = () => {
     useEffect(()=>{
         const a=audioRef.current; if(!a) return;
         const t=()=>setCurrentTime(a.currentTime);
+        // Fix VBR: seek-to-end trick per forzare il browser a leggere la durata reale
         const d=()=>{
             const dur = a.duration;
-            if(dur && isFinite(dur) && dur > 1) setDuration(dur);
-        };
-        // Per MP3 VBR: aspetta che il buffer sia sufficiente poi rilegge
-        const onProgress = ()=>{
-            if(a.buffered.length > 0 && a.duration && isFinite(a.duration) && a.duration > 1){
-                setDuration(a.duration);
+            if(!dur || !isFinite(dur) || dur < 1) return;
+            // Se la durata sembra sbagliata (< 360s per tracce da 10min), usa seek trick
+            if(dur < 360) {
+                const savedTime = a.currentTime;
+                const onSeeked = ()=>{
+                    const realDur = a.duration;
+                    if(realDur && isFinite(realDur) && realDur > 1) setDuration(realDur);
+                    a.currentTime = savedTime;
+                    a.removeEventListener('seeked', onSeeked);
+                };
+                a.addEventListener('seeked', onSeeked);
+                a.currentTime = 1e10; // seek alla fine
+            } else {
+                setDuration(dur);
             }
         };
         const e=()=>{ if(isRepeat){a.currentTime=0;a.play();}else handleNext(); };
-        a.addEventListener('timeupdate',t); a.addEventListener('loadedmetadata',d); a.addEventListener('durationchange',d); a.addEventListener('progress',onProgress); a.addEventListener('canplaythrough',d); a.addEventListener('ended',e);
-        return()=>{ a.removeEventListener('timeupdate',t); a.removeEventListener('loadedmetadata',d); a.removeEventListener('durationchange',d); a.removeEventListener('progress',onProgress); a.removeEventListener('canplaythrough',d); a.removeEventListener('ended',e); };
+        a.addEventListener('timeupdate',t);
+        a.addEventListener('loadedmetadata',d);
+        a.addEventListener('durationchange',d);
+        a.addEventListener('ended',e);
+        return()=>{
+            a.removeEventListener('timeupdate',t);
+            a.removeEventListener('loadedmetadata',d);
+            a.removeEventListener('durationchange',d);
+            a.removeEventListener('ended',e);
+        };
     },[isRepeat]);
 
     useEffect(()=>{ if(sleepTimer){ timerRef.current=setTimeout(()=>{setIsPlaying(false);setSleepTimer(null);},sleepTimer*60000); } return()=>{ if(timerRef.current) clearTimeout(timerRef.current); }; },[sleepTimer]);
@@ -773,6 +790,8 @@ const App = () => {
     const handleProgressTouch = e=>{ const t=e.touches[0]||e.changedTouches[0]; const r=e.currentTarget.getBoundingClientRect(); const p=Math.max(0,Math.min(1,(t.clientX-r.left)/r.width)); if(audioRef.current&&binauralMode!=='pure') audioRef.current.currentTime=p*duration; };
 
     const handleNext = () => {
+        const wasPlaying = isPlaying;
+        setIsPlaying(false);
         const tracks = TRACK_GROUPS[selectedGroup].tracks;
         if (isShuffle) {
             const g = Object.keys(TRACK_GROUPS); const rg = g[Math.floor(Math.random()*g.length)];
@@ -782,10 +801,14 @@ const App = () => {
             if (next===0) { const gs=Object.keys(TRACK_GROUPS); setSelectedGroup(gs[(gs.indexOf(selectedGroup)+1)%gs.length]); }
             setSelectedTrack(next);
         }
+        if (wasPlaying) setTimeout(()=>setIsPlaying(true), 150);
     };
     const handlePrev = () => {
+        const wasPlaying = isPlaying;
+        setIsPlaying(false);
         if (selectedTrack>0) { setSelectedTrack(s=>s-1); }
         else { const gs=Object.keys(TRACK_GROUPS); const prev=gs[(gs.indexOf(selectedGroup)-1+gs.length)%gs.length]; setSelectedGroup(prev); setSelectedTrack(TRACK_GROUPS[prev].tracks.length-1); }
+        if (wasPlaying) setTimeout(()=>setIsPlaying(true), 150);
     };
 
     const handleFreqSelect = freq => {
@@ -1153,5 +1176,5 @@ const App = () => {
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 </script>
-<!-- prev:1777745403239 --><!-- prev:1777760217786 --><!-- ts:1777760965540 --><!-- ts:1777799748855 --><!-- ts:1777817234899 --></body>
+<!-- prev:1777745403239 --><!-- prev:1777760217786 --><!-- ts:1777760965540 --><!-- ts:1777799748855 --><!-- ts:1777817234899 --><!-- ts:1777817919121 --></body>
 </html>
