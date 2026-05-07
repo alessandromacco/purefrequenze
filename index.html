@@ -14,7 +14,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PureFrequenze - Frequenze Solfeggio & Battimenti Binaurali</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -215,9 +215,9 @@
         .track-subtitle { color:rgba(255,255,255,.65); font-size:1.15rem; }
         .mode-badge { display:inline-block; padding:.5rem 1.5rem; background:rgba(139,92,246,.2); border:1px solid rgba(139,92,246,.4); border-radius:20px; font-size:.9rem; margin-top:1rem; color:#c084fc; }
         .progress-container { margin:2.5rem 0; }
-        .progress-bar { width:100%; height:12px; background:rgba(255,255,255,.08); border-radius:10px; cursor:pointer; position:relative; overflow:hidden; box-shadow:inset 0 2px 8px rgba(0,0,0,.3); }
-        .progress-fill { height:100%; background:linear-gradient(90deg,var(--freq-528),#8b5cf6); border-radius:10px; transition:width .1s ease; box-shadow:0 0 20px rgba(0,206,209,.6); }
-        .progress-fill::after { content:''; position:absolute; right:0; top:50%; transform:translateY(-50%); width:20px; height:20px; background:white; border-radius:50%; box-shadow:0 2px 10px rgba(0,0,0,.4),0 0 15px rgba(255,255,255,.5); }
+        .progress-bar { width:100%; height:12px; background:rgba(255,255,255,.08); border-radius:10px; cursor:pointer; position:relative; overflow:visible; box-shadow:inset 0 2px 8px rgba(0,0,0,.3); }
+        .progress-fill { height:100%; background:linear-gradient(90deg,var(--freq-528),#8b5cf6); border-radius:10px; transition:width .1s ease; box-shadow:0 0 20px rgba(0,206,209,.6); position:relative; }
+        .progress-fill::after { content:''; position:absolute; right:-10px; top:50%; transform:translateY(-50%); width:20px; height:20px; background:white; border-radius:50%; box-shadow:0 2px 10px rgba(0,0,0,.4),0 0 15px rgba(255,255,255,.5); }
         .time-info { display:flex; justify-content:space-between; margin-top:1.2rem; color:rgba(255,255,255,.5); font-size:1rem; font-weight:500; }
         .player-controls { display:flex; justify-content:center; align-items:center; gap:2.5rem; margin:2.5rem 0; }
         .control-btn { background:none; border:none; color:white; cursor:pointer; transition:all .4s; padding:0; display:flex; align-items:center; justify-content:center; }
@@ -317,7 +317,7 @@
         body.modal-open { overflow:hidden; position:fixed; width:100%; }
         @media(max-width:1400px){.main-layout{grid-template-columns:450px 1fr;gap:2rem}}
         @media(max-width:1200px){.main-layout{grid-template-columns:1fr}.binaural-modes{grid-template-columns:1fr}}
-        @media(max-width:768px){.logo{font-size:60px;letter-spacing:10px}.freq-grid{grid-template-columns:1fr}.upgrade-pricing{grid-template-columns:1fr}.onboarding-box{padding:2rem}}
+        @media(max-width:1200px){.main-layout{grid-template-columns:1fr!important;gap:1.5rem}}@media(max-width:768px){.logo{font-size:48px;letter-spacing:8px}.freq-grid{grid-template-columns:1fr}.upgrade-pricing{grid-template-columns:1fr}.onboarding-box{padding:1.5rem 1rem}.app-container{padding:1rem!important}}
     </style>
 </head>
 <body>
@@ -571,6 +571,8 @@ const App = () => {
     const [sleepTimer, setSleepTimer]     = useState(null);
 
     const audioRef    = useRef(null);
+    const isShuffleRef = useRef(false);
+    const isRepeatRef  = useRef(false);
     const audioCtxRef = useRef(null);
     const oscLRef     = useRef(null);
     const oscRRef     = useRef(null);
@@ -750,26 +752,39 @@ const App = () => {
     useEffect(()=>{
         const a=audioRef.current; if(!a) return;
         const t=()=>setCurrentTime(a.currentTime);
-        // Fix VBR: seek-to-end trick per forzare il browser a leggere la durata reale
+        const fixVBRDuration = (url) => {
+            Promise.all([
+                fetch(url, {method:'HEAD'}),
+                fetch(url, {headers:{Range:'bytes=0-4095'}})
+            ]).then(([h, r]) => {
+                const size = parseInt(h.headers.get('content-length')||0);
+                return r.arrayBuffer().then(buf => {
+                    if (!size || !buf.byteLength) return;
+                    const v = new DataView(buf);
+                    const bt = [0,32,40,48,56,64,80,96,112,128,160,192,224,256,320,0];
+                    let s = 0;
+                    // Salta ID3 tag
+                    if (v.getUint8(0)===73&&v.getUint8(1)===68&&v.getUint8(2)===51) {
+                        s = ((v.getUint8(6)&127)<<21)|((v.getUint8(7)&127)<<14)|((v.getUint8(8)&127)<<7)|(v.getUint8(9)&127);
+                        s += 10;
+                    }
+                    for (let i=s; i<Math.min(buf.byteLength-4,4000); i++) {
+                        if (v.getUint8(i)===0xFF && (v.getUint8(i+1)&0xE0)===0xE0) {
+                            const br = bt[(v.getUint8(i+2)>>4)&0xF];
+                            if (br>0) { const est=Math.round(size/(br*125)); if(est>60) setDuration(est); }
+                            break;
+                        }
+                    }
+                });
+            }).catch(()=>{});
+        };
         const d=()=>{
             const dur = a.duration;
-            if(!dur || !isFinite(dur) || dur < 1) return;
-            // Se la durata sembra sbagliata (< 360s per tracce da 10min), usa seek trick
-            if(dur < 360) {
-                const savedTime = a.currentTime;
-                const onSeeked = ()=>{
-                    const realDur = a.duration;
-                    if(realDur && isFinite(realDur) && realDur > 1) setDuration(realDur);
-                    a.currentTime = savedTime;
-                    a.removeEventListener('seeked', onSeeked);
-                };
-                a.addEventListener('seeked', onSeeked);
-                a.currentTime = 1e10; // seek alla fine
-            } else {
-                setDuration(dur);
-            }
+            if(!dur||!isFinite(dur)||dur<1) return;
+            setDuration(dur);
+            if (dur<360 && a.src) fixVBRDuration(a.src);
         };
-        const e=()=>{ if(isRepeat){a.currentTime=0;a.play();}else handleNext(); };
+        const e=()=>{ if(isRepeatRef.current){a.currentTime=0;a.play();}else handleNext(); };
         a.addEventListener('timeupdate',t);
         a.addEventListener('loadedmetadata',d);
         a.addEventListener('durationchange',d);
@@ -782,6 +797,9 @@ const App = () => {
         };
     },[isRepeat]);
 
+    useEffect(()=>{ isShuffleRef.current = isShuffle; },[isShuffle]);
+    useEffect(()=>{ isRepeatRef.current = isRepeat; },[isRepeat]);
+
     useEffect(()=>{ if(sleepTimer){ timerRef.current=setTimeout(()=>{setIsPlaying(false);setSleepTimer(null);},sleepTimer*60000); } return()=>{ if(timerRef.current) clearTimeout(timerRef.current); }; },[sleepTimer]);
     useEffect(()=>{ if(showUpgradeModal||showTimerModal) document.body.classList.add('modal-open'); else document.body.classList.remove('modal-open'); return()=>document.body.classList.remove('modal-open'); },[showUpgradeModal,showTimerModal]);
 
@@ -793,7 +811,7 @@ const App = () => {
         const wasPlaying = isPlaying;
         setIsPlaying(false);
         const tracks = TRACK_GROUPS[selectedGroup].tracks;
-        if (isShuffle) {
+        if (isShuffleRef.current) {
             const g = Object.keys(TRACK_GROUPS); const rg = g[Math.floor(Math.random()*g.length)];
             setSelectedGroup(rg); setSelectedTrack(Math.floor(Math.random()*TRACK_GROUPS[rg].tracks.length));
         } else {
@@ -1176,5 +1194,5 @@ const App = () => {
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 </script>
-<!-- prev:1777745403239 --><!-- prev:1777760217786 --><!-- ts:1777760965540 --><!-- ts:1777799748855 --><!-- ts:1777817234899 --><!-- ts:1777817919121 --></body>
+<!-- prev:1777745403239 --><!-- prev:1777760217786 --><!-- ts:1777760965540 --><!-- ts:1777799748855 --><!-- ts:1777817234899 --><!-- ts:1777817919121 --><!-- ts:1778051234519 --></body>
 </html>
