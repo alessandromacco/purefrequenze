@@ -50,7 +50,7 @@
 
 - **Piattaforma:** GitHub
 - **Owner:** alessandromacco
-- **Repo:** purefrequenze *(nome legacy — considera rinominare in "purefrequenze")*
+- **Repo:** purefrequenze
 - **Branch principale:** main
 - **URL:** https://github.com/alessandromacco/purefrequenze
 
@@ -150,4 +150,3 @@ playbackRate = targetFrequency / 440  // 440 Hz = standard internazionale
 |----------|---------|-----------|
 | Babel standalone in produzione | ~800KB extra, lento su mobile | Migrare a Vite |
 | track.mp3 nella git history | Repo pesante | BFG Repo Cleaner |
-| Repo nominata `purefrequenze` | Confonde il branding | Rinominare su GitHub |
