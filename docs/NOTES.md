@@ -8,12 +8,12 @@
 
 ### Produzione
 - **Web App:** https://purefrequenze.com
-- **GitHub Pages fallback:** https://alessandromacco.github.io/tunein-app-/
+- **GitHub Pages fallback:** https://alessandromacco.github.io/purefrequenze/
 - **Audio CDN:** https://tunein.b-cdn.net/
 - **Traccia principale:** https://tunein.b-cdn.net/Track.01.mp3
 
 ### Sviluppo
-- **GitHub Repository:** https://github.com/alessandromacco/tunein-app-
+- **GitHub Repository:** https://github.com/alessandromacco/purefrequenze
 - **BunnyCDN Dashboard:** https://dash.bunny.net/
 - **Firebase Console:** https://console.firebase.google.com/project/purefrequenze-35ff7
 - **Storage Manager:** https://dash.bunny.net/storage/1277768/file-manager
@@ -167,6 +167,6 @@ Il file audio (281MB) è presente nella history del repo git.
 
 ## 📞 Riferimenti
 
-- **Repository:** https://github.com/alessandromacco/tunein-app-
+- **Repository:** https://github.com/alessandromacco/purefrequenze
 - **Maintainer:** Alessandro Macco (@alessandromacco)
 - **BunnyCDN Support:** support@bunny.net

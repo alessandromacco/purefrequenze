@@ -17,7 +17,7 @@
 
 ### GitHub Pages
 - **URL:** https://purefrequenze.com (via CNAME)
-- **Fallback:** https://alessandromacco.github.io/tunein-app-/
+- **Fallback:** https://alessandromacco.github.io/purefrequenze/
 - **Deploy:** Automatico su push al branch main
 
 ### BunnyCDN
@@ -50,9 +50,9 @@
 
 - **Piattaforma:** GitHub
 - **Owner:** alessandromacco
-- **Repo:** tunein-app- *(nome legacy — considera rinominare in "purefrequenze")*
+- **Repo:** purefrequenze *(nome legacy — considera rinominare in "purefrequenze")*
 - **Branch principale:** main
-- **URL:** https://github.com/alessandromacco/tunein-app-
+- **URL:** https://github.com/alessandromacco/purefrequenze
 
 ---
 
@@ -150,4 +150,4 @@ playbackRate = targetFrequency / 440  // 440 Hz = standard internazionale
 |----------|---------|-----------|
 | Babel standalone in produzione | ~800KB extra, lento su mobile | Migrare a Vite |
 | track.mp3 nella git history | Repo pesante | BFG Repo Cleaner |
-| Repo nominata `tunein-app-` | Confonde il branding | Rinominare su GitHub |
+| Repo nominata `purefrequenze` | Confonde il branding | Rinominare su GitHub |

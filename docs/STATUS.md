@@ -57,7 +57,7 @@ Functions: Webhook Stripe, gestione trial
 
 ### Repository
 ```
-GitHub: https://github.com/alessandromacco/tunein-app-
+GitHub: https://github.com/alessandromacco/purefrequenze
 Deploy: GitHub Pages → purefrequenze.com
 ```
 
