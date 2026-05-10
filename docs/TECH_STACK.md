@@ -1,154 +1,153 @@
-# Tech Stack - Tune In Project
+# Tech Stack — PureFrequenze
 
-**Last Updated:** 30 November 2025
+**Ultimo aggiornamento:** 08 maggio 2026
 
 ---
 
 ## Frontend
 
 - **React 18** (via CDN unpkg)
-- **Babel Standalone** (JSX transpiling in-browser)
-- **Tailwind CSS** (via CDN)
-- **Web Audio API** (frequency analysis and audio manipulation)
+- **Babel Standalone** (transpiling JSX in-browser — da migrare a Vite)
+- **Web Audio API** (conversione frequenza, controllo audio)
+- **Firebase SDK 10.8.0** (auth, firestore, functions)
 
 ---
 
 ## Hosting & CDN
 
 ### GitHub Pages
-- **URL:** https://alessandromacco.github.io/tunein-app-/
-- **Type:** Static hosting
-- **Deploy:** Automatic on push to main branch
+- **URL:** https://purefrequenze.com (via CNAME)
+- **Fallback:** https://alessandromacco.github.io/tunein-app-/
+- **Deploy:** Automatico su push al branch main
 
 ### BunnyCDN
 - **Storage Zone:** tunein (ID: 1277768)
 - **Pull Zone:** tunein.b-cdn.net
 - **CDN URL:** https://tunein.b-cdn.net/
-- **CORS:** Enabled for mp3 extension
+- **CORS:** Abilitato su mp3, wav, js, css e altri
+
+---
+
+## Backend
+
+### Firebase (purefrequenze-35ff7)
+- **Auth:** Email/password + Google OAuth
+- **Firestore:** Gestione utenti, abbonamenti, stato trial
+- **Functions:** Webhook Stripe, logica freemium
+
+### Cloudflare Workers
+- **Config:** wrangler.jsonc (branch cloudflare/workers-autoconfig)
+- **Scopo:** Audio processing / edge routing
+
+### Stripe
+- **Piano:** Freemium con Trial 7 giorni
+- **PREMIUM:** €5/mese o €42/anno
+- **Webhook:** gestito da Firebase Functions
 
 ---
 
 ## Repository
 
-- **Platform:** GitHub
+- **Piattaforma:** GitHub
 - **Owner:** alessandromacco
-- **Repo:** tunein-app-
-- **Branch:** main
-- **URL:** https://github.com/alessandromacco/tunein-app-/
+- **Repo:** tunein-app- *(nome legacy — considera rinominare in "purefrequenze")*
+- **Branch principale:** main
+- **URL:** https://github.com/alessandromacco/tunein-app-
 
 ---
 
-## Development Setup
+## Struttura file (PRODUZIONE)
 
-### No Build Process
-- Single HTML file approach
-- All dependencies via CDN
-- No node_modules
-- No bundler required
-- Direct deployment to GitHub Pages
-
-### File Structure
 ```
-tunein-app-/
-├── index.html (main application file)
-├── /docs/ (documentation)
+PRODUZIONE/
+├── index.html          (Hub Page v3.0 — 88KB)
+├── app.html            (App v1 — 66KB)
+├── CNAME               (purefrequenze.com)
+├── .gitignore
+├── docs/
+│   ├── TECH_STACK.md   (questo file)
+│   ├── STATUS.md
+│   └── NOTES.md
 └── README.md
 ```
 
 ---
 
-## Browser APIs Used
-
-- **Web Audio API**
-  - `AudioContext` - Audio processing
-  - `MediaElementSource` - Audio source from HTML5 element
-  - `GainNode` - Volume control
-  - `playbackRate` - Frequency conversion
-
-- **HTML5 Audio Element**
-  - Audio playback
-  - Time tracking
-  - Seeking functionality
-
----
-
-## Dependencies (CDN)
+## Dipendenze CDN (index.html)
 
 ```html
 <!-- React 18 -->
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-
-<!-- React DOM 18 -->
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
-<!-- Babel Standalone -->
+<!-- Babel Standalone (debito tecnico: ~800KB, valutare Vite) -->
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com"></script>
+<!-- Firebase 10.8.0 -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-functions-compat.js"></script>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 ```
 
 ---
 
-## Localization
+## API Browser utilizzate
 
-- **Supported Languages:** Italian (IT), English (EN)
-- **Implementation:** In-app translation object (TRANSLATIONS)
-- **Default Language:** Italian
+- **Web Audio API** — AudioContext, MediaElementSource, GainNode, playbackRate
+- **HTML5 Audio Element** — Playback, seeking, time tracking
+- **Firebase Auth** — Autenticazione utenti
+- **Firebase Firestore** — Persistenza dati
 
 ---
 
-## Audio Processing
+## Formule audio
 
-### Frequency Conversion Formula
 ```javascript
-playbackRate = targetFrequency / STANDARD_FREQ (440 Hz)
+// Conversione frequenza
+playbackRate = targetFrequency / 440  // 440 Hz = standard internazionale
+
+// Esempi:
+// 432 Hz → 0.982 (più lento/basso)
+// 528 Hz → 1.200 (più veloce/alto)
+// 963 Hz → 2.189
 ```
 
-**Examples:**
-- 432 Hz → playbackRate = 0.982 (slower/lower pitch)
-- 528 Hz → playbackRate = 1.2 (faster/higher pitch)
-
-### Preset Frequencies (Solfeggio Scale)
-- 396 Hz - Grounding
-- 417 Hz - Change
-- 432 Hz - Universal Harmony
-- 440 Hz - Western Standard
-- 528 Hz - Love Frequency
-- 639 Hz - Connection
-- 741 Hz - Expression
-- 852 Hz - Intuition
-- 963 Hz - Unity
-
-### Custom Frequency Range
-- **Min:** 200 Hz
-- **Max:** 1000 Hz
-- **Step:** 1 Hz
+### Frequenze Solfeggio disponibili
+| Hz | Nome | Chakra |
+|----|------|--------|
+| 396 | Liberazione paura | Muladhara |
+| 417 | Cambiamento | Svadhisthana |
+| 432 | Armonia universale | — |
+| 440 | Standard occidentale | — |
+| 528 | Frequenza dell'amore | Manipura |
+| 639 | Connessione | Anahata |
+| 741 | Espressione | Vishuddha |
+| 852 | Intuizione | Ajna |
+| 963 | Unità | Sahasrara |
 
 ---
 
-## Performance Considerations
+## Compatibilità browser
 
-- Lightweight (single HTML file ~15KB)
-- No server-side processing required
-- CDN delivery for optimal global performance
-- Lazy loading not needed (small footprint)
+| Browser | Testato | Note |
+|---------|---------|------|
+| Chrome Desktop | ✅ | Funzionante |
+| Safari Desktop | ⬜ | Da testare |
+| Firefox Desktop | ⬜ | Da testare |
+| Edge Desktop | ⬜ | Da testare |
+| iOS Safari | ⬜ | AudioContext richiede gesto utente |
+| Chrome Mobile | ⬜ | Da testare |
 
 ---
 
-## Browser Compatibility
+## Debiti tecnici
 
-**Tested:**
-- Chrome (Desktop)
-
-**To Test:**
-- Safari (Desktop/Mobile)
-- Firefox (Desktop)
-- Edge (Desktop)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-
-**Required Features:**
-- Web Audio API support
-- ES6+ JavaScript
-- HTML5 Audio element
-- CSS Grid & Flexbox
+| Problema | Impatto | Soluzione |
+|----------|---------|-----------|
+| Babel standalone in produzione | ~800KB extra, lento su mobile | Migrare a Vite |
+| track.mp3 nella git history | Repo pesante | BFG Repo Cleaner |
+| Repo nominata `tunein-app-` | Confonde il branding | Rinominare su GitHub |

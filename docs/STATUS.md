@@ -1,172 +1,153 @@
-# Project Status - Tune In
+# Project Status — PureFrequenze
 
-**Last Updated:** 30 November 2025
+**Ultimo aggiornamento:** 08 maggio 2026
 
 ---
 
-## ✅ Completed Features
+## ✅ Funzionalità completate
 
-### Core Functionality
-- [x] Audio player with play/pause controls
-- [x] Frequency converter (396-963 Hz Solfeggio scale)
-- [x] Custom frequency mode (200-1000 Hz range)
-- [x] Real-time frequency conversion using Web Audio API
-- [x] Volume control with visual feedback
-- [x] Audio seeking/scrubbing
-- [x] Time display (current time / duration)
+### Core
+- [x] Player audio con controlli play/pause/seek
+- [x] Frequenze Solfeggio (396–963 Hz) + battimenti binaurali
+- [x] Modalità frequenza personalizzata (range custom)
+- [x] Conversione frequenza real-time via Web Audio API
+- [x] Controllo volume con feedback visivo
+- [x] Visualizzazione tempo (corrente / durata)
+
+### Sistema Freemium v3.0
+- [x] Tier FREE permanente: 432 Hz × Deep Contemplation (7 combo)
+- [x] Trial guidato 7 giorni: 10–12 combinazioni personalizzate
+- [x] Piano PREMIUM: tutto — €5/mese o €42/anno
+- [x] Autenticazione Firebase (email + Google)
+- [x] Firestore per gestione stato utente
+- [x] Stripe per pagamenti (integrazione Firebase Functions)
 
 ### UI/UX
-- [x] Responsive design (mobile & desktop)
-- [x] Bilingual interface (Italian/English)
-- [x] Preset frequency buttons with color coding
-- [x] Visual frequency display with animations
-- [x] Chakra information for each frequency
-- [x] "How it works" collapsible info panel
-- [x] Gradient background with blur effects
-- [x] Custom range sliders with styling
+- [x] Design responsive (mobile & desktop)
+- [x] Interfaccia in italiano
+- [x] Font Playfair Display + Inter
+- [x] Animazioni e gradienti premium
+- [x] Modal tutorial onboarding
 
-### Technical Implementation
-- [x] BunnyCDN Storage Zone setup
-- [x] BunnyCDN Pull Zone configuration
-- [x] CORS headers properly configured
-- [x] Audio file uploaded to CDN
-- [x] GitHub Pages deployment
-- [x] crossOrigin attribute added for Web Audio API compatibility
+### Infrastruttura
+- [x] Dominio custom: purefrequenze.com (CNAME configurato)
+- [x] Deploy via GitHub Pages
+- [x] Audio su BunnyCDN (CORS configurato)
+- [x] HTTPS attivo
+- [x] Cloudflare Worker (audio processing)
 
 ---
 
-## 🔧 Configuration Applied
+## 🔧 Configurazione attiva
 
-### BunnyCDN Settings
+### BunnyCDN
 ```
-Storage Zone: tunein (ID: 1277768)
 Pull Zone: tunein.b-cdn.net
-CORS Headers: Enabled
-Extension List: eot, ttf, woff, woff2, css, js, jpg, jpeg, png, mp3
+CORS: Abilitato (mp3, wav, js, css, ecc.)
+Audio principale: https://tunein.b-cdn.net/Track.01.mp3
 ```
 
-### Code Fixes
-```javascript
-// Line 88: Added CORS attribute
-audio.crossOrigin = "anonymous";
+### Firebase
+```
+Progetto: purefrequenze-35ff7
+Auth: Email/password + Google OAuth
+Firestore: Gestione utenti e abbonamenti
+Functions: Webhook Stripe, gestione trial
 ```
 
-### URLs
-- **Web App:** https://alessandromacco.github.io/tunein-app-/
-- **Audio CDN:** https://tunein.b-cdn.net/Track.01.mp3
-- **Repository:** https://github.com/alessandromacco/tunein-app-
+### Repository
+```
+GitHub: https://github.com/alessandromacco/tunein-app-
+Deploy: GitHub Pages → purefrequenze.com
+```
 
 ---
 
-## ✅ Testing Results
+## 🧪 Test effettuati
 
-### Functionality Tests
-- [x] Audio playback: **WORKING**
-- [x] Frequency conversion: **WORKING** (formula verified: targetHz/440)
-- [x] CORS: **RESOLVED** (no console errors)
-- [x] Volume control: **WORKING**
-- [x] Seeking: **WORKING**
-- [x] Language switching: **WORKING**
+### Funzionalità
+- [x] Riproduzione audio: **FUNZIONANTE**
+- [x] Conversione frequenza: **FUNZIONANTE**
+- [x] CORS: **RISOLTO**
+- [x] Controllo volume: **FUNZIONANTE**
+- [x] Seek audio: **FUNZIONANTE**
+- [x] Login Firebase: **FUNZIONANTE**
 
-### Device Testing
-- [x] Chrome Desktop: **WORKING**
-- [ ] Safari Desktop: **NOT TESTED**
-- [ ] Firefox Desktop: **NOT TESTED**
-- [ ] Edge Desktop: **NOT TESTED**
-- [ ] iOS Safari: **NOT TESTED**
-- [ ] Chrome Mobile: **NOT TESTED**
-
-### Known Limitations
-- Frequency differences may be subtle with low-quality audio output
-- Single audio file only (Track.01.mp3)
-- No visual frequency spectrum analyzer
-- No audio quality indicator
+### Browser
+- [x] Chrome Desktop: **FUNZIONANTE**
+- [ ] Safari Desktop: **NON TESTATO**
+- [ ] Firefox Desktop: **NON TESTATO**
+- [ ] iOS Safari: **NON TESTATO**
+- [ ] Chrome Mobile: **NON TESTATO**
 
 ---
 
-## 🚧 In Progress
+## 🚧 In sviluppo
 
-*Currently no features in development*
-
----
-
-## 📋 Backlog / Future Features
-
-### High Priority
-- [ ] Cross-browser testing (Safari, Firefox, Edge)
-- [ ] Mobile responsiveness testing
-- [ ] Audio quality optimization
-- [ ] Performance testing on various devices
-
-### Medium Priority
-- [ ] Multiple audio file support
-- [ ] Playlist functionality
-- [ ] User audio upload capability
-- [ ] Visual frequency spectrum analyzer
-- [ ] Save/Load user preferences
-- [ ] Share functionality (social media)
-
-### Low Priority
-- [ ] Dark/Light theme toggle
-- [ ] Audio effects (reverb, echo)
-- [ ] Export converted audio
-- [ ] User accounts & history
-- [ ] Advanced EQ controls
-- [ ] Meditation timer integration
-
-### Technical Debt
-- [ ] Consider migration to proper build system (Vite/Webpack)
-- [ ] Code splitting for better performance
-- [ ] Automated testing setup
-- [ ] CI/CD pipeline
-- [ ] Error boundary implementation
-- [ ] Analytics integration
+- Ottimizzazione performance mobile (Babel standalone → build tool)
+- Test cross-browser
+- Analytics
 
 ---
 
-## 🐛 Known Issues
+## 📋 Backlog
 
-*No critical bugs reported*
+### Alta priorità
+- [ ] Test su Safari e Firefox
+- [ ] Test mobile approfondito
+- [ ] Migrazione da Babel standalone a Vite (performance)
+- [ ] Verifica Firebase Security Rules Firestore
 
-### Minor Issues
-- None reported
+### Media priorità
+- [ ] Supporto più tracce audio
+- [ ] Playlist
+- [ ] Analizzatore visuale frequenze
+- [ ] Preferenze utente (salvataggio)
 
----
-
-## 📊 Metrics
-
-- **Total Lines of Code:** ~300
-- **File Size:** ~15KB
-- **Load Time:** < 1 second (on fast connection)
-- **CDN Bandwidth Used:** Minimal (trial phase)
-- **GitHub Pages Status:** Active
-
----
-
-## 🔐 Security
-
-- [x] HTTPS enabled (GitHub Pages)
-- [x] CDN secure delivery (BunnyCDN)
-- [x] No user data collection
-- [x] No authentication required
-- [x] CORS properly configured
+### Bassa priorità
+- [ ] Audio effects (reverb, eco)
+- [ ] Timer meditazione integrato
 
 ---
 
-## 📝 Recent Changes
+## 🐛 Bug noti
 
-### 30 November 2025
-- Fixed CORS issue by adding `crossOrigin = "anonymous"` to audio element
-- Verified audio playback working correctly
-- Confirmed frequency conversion formula accuracy
-- Created documentation structure in `/docs/`
+- VBR duration: risolto con polling + durationchange (commit b03f931)
+- Skip auto-play: risolto (commit b03f931)
 
 ---
 
-## 🎯 Next Immediate Steps
+## 🔐 Sicurezza
 
-1. Create VISION.md (user to complete from previous chats)
-2. Create ROADMAP.md (user to complete from previous chats)
-3. Test on multiple browsers
-4. Test on mobile devices
-5. Gather user feedback on frequency perception
+- [x] HTTPS attivo
+- [x] CDN sicura (BunnyCDN)
+- [x] `crossOrigin = "anonymous"` sull'audio element
+- [x] Firebase API key pubblica (normale per client-side)
+- [x] `.gitignore` aggiunto — esclude audio, .DS_Store, .env
+- [x] Token PAT rimosso dall'URL del remote git
+- [ ] Verificare Firebase Security Rules Firestore
+
+---
+
+## 📝 Changelog
+
+### 08 maggio 2026
+- Aggiunto `.gitignore` (esclude *.mp3, *.wav, .DS_Store, .env)
+- Token GitHub rimosso dall'URL del remote
+- Documentazione aggiornata (Tune In → PureFrequenze)
+- Struttura progetto riorganizzata
+
+### 07 maggio 2026
+- Hub Page v3.0 — Freemium + Trial Guidato 7 Giorni (88KB)
+- Fix shuffle/repeat refs, mobile layout, progress cursor
+
+### 26 aprile 2026
+- App.html v1 consolidata (66KB)
+- Integrazione Freemium + Stripe + Firebase
+
+### 18 febbraio 2026
+- Hub v2.0 Professional (116KB)
+
+### 28 gennaio 2026
+- App v1-COMPLETE con Stripe (114KB)
+- Backup completo con firebase-functions
